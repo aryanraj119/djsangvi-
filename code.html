@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RIE_ORCHESTRATOR | MISSION_CRITICAL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #131314;
+            color: #e5e2e3;
+            overflow: hidden;
+        }
+        .glass-panel {
+            background: rgba(53, 52, 54, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(132, 149, 135, 0.15);
+        }
+        .active-node-glow {
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+        }
+        .terminal-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .terminal-scroll::-webkit-scrollbar-track {
+            background: rgba(14, 14, 15, 0.5);
+        }
+        .terminal-scroll::-webkit-scrollbar-thumb {
+            background: #353436;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#00e38b",
+                      "secondary": "#ffecc0",
+                      "secondary-fixed-dim": "#f1c100",
+                      "on-tertiary-fixed": "#410003",
+                      "on-secondary-fixed-variant": "#584400",
+                      "surface-container-low": "#1c1b1c",
+                      "on-secondary": "#3d2f00",
+                      "on-primary-fixed": "#002110",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-fixed": "#ffdad6",
+                      "surface-bright": "#3a393a",
+                      "on-tertiary-fixed-variant": "#930010",
+                      "on-tertiary-container": "#c7041a",
+                      "on-surface": "#e5e2e3",
+                      "primary-fixed": "#56ffa8",
+                      "on-surface-variant": "#b9cbbc",
+                      "on-background": "#e5e2e3",
+                      "error": "#ffb4ab",
+                      "on-secondary-container": "#6e5700",
+                      "surface-variant": "#353436",
+                      "primary-container": "#00ff9d",
+                      "tertiary": "#fffbff",
+                      "inverse-surface": "#e5e2e3",
+                      "surface-dim": "#131314",
+                      "secondary-fixed": "#ffe08b",
+                      "surface-container-high": "#2a2a2b",
+                      "inverse-primary": "#006d40",
+                      "outline-variant": "#3b4a3f",
+                      "on-error": "#690005",
+                      "surface-container-lowest": "#0e0e0f",
+                      "on-primary-container": "#007143",
+                      "tertiary-container": "#ffd6d2",
+                      "primary-fixed-dim": "#00e38b",
+                      "on-primary-fixed-variant": "#00522f",
+                      "outline": "#849587",
+                      "surface-container": "#201f20",
+                      "on-secondary-fixed": "#241a00",
+                      "inverse-on-surface": "#313031",
+                      "primary": "#f4fff3",
+                      "on-primary": "#00391f",
+                      "surface": "#131314",
+                      "surface-container-highest": "#353436",
+                      "error-container": "#93000a",
+                      "background": "#131314",
+                      "tertiary-fixed-dim": "#ffb3ac",
+                      "secondary-container": "#fecb00",
+                      "on-tertiary": "#680008"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TOP NAV BAR -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-14 bg-[#131314]/80 backdrop-blur-xl border-b border-[#353436]/30">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-[0.2em] text-[#00FF9D] drop-shadow-[0_0_8px_rgba(0,255,157,0.4)]">RIE_ORCHESTRATOR</span>
+<div class="h-4 w-[1px] bg-outline-variant/30 mx-2"></div>
+<nav class="hidden md:flex gap-6">
+<a class="font-['Space_Grotesk'] uppercase tracking-wider text-sm text-[#00FF9D] border-b-2 border-[#00FF9D] pb-1" href="#">SYSTEM_STAT</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-wider text-sm text-[#f4fff3]/60 hover:text-[#00FF9D] transition-all duration-100" href="#">THREAD_MAP</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-wider text-sm text-[#f4fff3]/60 hover:text-[#00FF9D] transition-all duration-100" href="#">HISTORY</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline hover:text-[#00FF9D] cursor-pointer transition-colors" data-icon="terminal">terminal</span>
+<span class="material-symbols-outlined text-outline hover:text-[#00FF9D] cursor-pointer transition-colors" data-icon="settings">settings</span>
+<div class="w-8 h-8 rounded-sm bg-surface-container-highest overflow-hidden border border-outline-variant/50">
+<img alt="user_identity_matrix" class="w-full h-full object-cover grayscale brightness-125" data-alt="close-up of a futuristic cybernetic eye with neon green circuitry and digital interface overlays in a dark setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3183a4pm0sOAGRNvn-dUfEuI9XDKnVmp7eEbe1FWTR8GtvBK4CkhWn7_TZxFHk4Ru-mHxVYylnWDLsg39Uzh4WLMVqqcQFvVYV4H6zv-sOP29OslzljRamME5JChn0T84c9RhuQXh7cGKAsy7DtLbRC3nZ9adAW4NNWxXNBFZXVvG0b2DOvmRhPr3WLx7gbBkJQub082er1R5oC823IyxUk2EFHy2PGWFU3kBSJ7wpaAmCKvN0l_dfeZvr13bx7dNiEdoz0_WAjU"/>
+</div>
+</div>
+</header>
+<!-- SIDE NAV BAR -->
+<aside class="fixed left-0 top-14 bottom-0 flex flex-col items-center py-4 z-40 bg-[#0e0e0f]/90 backdrop-blur-lg w-20 border-r border-[#353436]/20">
+<div class="flex flex-col items-center gap-1 mb-8">
+<div class="w-10 h-10 bg-primary-container/10 flex items-center justify-center border border-primary-container/20">
+<span class="material-symbols-outlined text-primary-container" data-icon="hub">hub</span>
+</div>
+<span class="text-[10px] font-black text-[#56ffa8] tracking-tighter">NODE_01</span>
+</div>
+<div class="flex flex-col gap-6 flex-1">
+<div class="flex flex-col items-center gap-1 group cursor-pointer bg-[#00FF9D]/10 text-[#00FF9D] border-r-2 border-[#00FF9D] w-full py-2">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="text-[8px] uppercase tracking-tighter">Orchestrator</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-[#353436] hover:text-[#56ffa8] transition-all">
+<span class="material-symbols-outlined" data-icon="travel_explore">travel_explore</span>
+<span class="text-[8px] uppercase tracking-tighter">Research</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-[#353436] hover:text-[#56ffa8] transition-all">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="text-[8px] uppercase tracking-tighter">Reasoning</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-[#353436] hover:text-[#56ffa8] transition-all">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="text-[8px] uppercase tracking-tighter">Execution</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-[#353436] hover:text-[#56ffa8] transition-all">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="text-[8px] uppercase tracking-tighter">Validation</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-[#353436] hover:text-[#56ffa8] transition-all">
+<span class="material-symbols-outlined" data-icon="quickreply">quickreply</span>
+<span class="text-[8px] uppercase tracking-tighter">Response</span>
+</div>
+</div>
+<div class="mt-auto flex flex-col gap-4 border-t border-outline-variant/10 pt-4 w-full items-center">
+<span class="material-symbols-outlined text-[#353436] hover:text-[#56ffa8] cursor-pointer" data-icon="list_alt">list_alt</span>
+<span class="material-symbols-outlined text-[#353436] hover:text-[#56ffa8] cursor-pointer" data-icon="lan">lan</span>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="ml-20 mt-14 h-[calc(100vh-3.5rem)] flex flex-col overflow-hidden">
+<!-- Top Half: Chat, Flow, and Panels -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Panel: Chat Interface -->
+<section class="w-[400px] border-r border-outline-variant/10 flex flex-col bg-surface-container-lowest/50">
+<div class="p-4 border-b border-outline-variant/10 bg-surface-container-low/30">
+<h2 class="text-xs font-bold uppercase tracking-[0.2em] text-primary-fixed">DIRECT_THREAD_091</h2>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-6 terminal-scroll">
+<!-- User Message -->
+<div class="flex flex-col gap-2 items-end">
+<div class="bg-surface-container-high px-4 py-3 border-l-2 border-primary-container max-w-[90%]">
+<p class="text-sm font-light text-on-surface">Initiate global threat assessment for VECTOR_DELTA. Focus on cross-border liquidity spikes in SEC_ALPHA.</p>
+</div>
+<span class="text-[10px] text-outline uppercase">USER_ADMIN // 09:41:22</span>
+</div>
+<!-- System Response Agent -->
+<div class="flex flex-col gap-2 items-start">
+<div class="glass-panel px-4 py-3 border-l-2 border-secondary-container max-w-[90%]">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary-container text-sm" data-icon="quickreply">quickreply</span>
+<span class="text-[10px] font-bold text-secondary-container">RESPONSE_AGENT</span>
+</div>
+<p class="text-sm font-light text-primary/90">Assessment complete. 14 anomalies identified in SEC_ALPHA. Liquidity spikes correlate with lateral movement in dormant shadow-ledger protocols. Mitigation path generated.</p>
+</div>
+<span class="text-[10px] text-outline uppercase">RIE_CORE // 09:42:05</span>
+</div>
+</div>
+<!-- Chat Input -->
+<div class="p-4 bg-surface-container-low/50">
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border-b border-outline p-3 text-sm focus:outline-none focus:border-primary-container transition-all placeholder:text-outline/50 uppercase tracking-widest font-medium" placeholder="EXECUTE_COMMAND..." type="text"/>
+<div class="absolute right-3 top-3 flex gap-2">
+<span class="material-symbols-outlined text-outline cursor-pointer" data-icon="mic">mic</span>
+<span class="material-symbols-outlined text-primary-container cursor-pointer" data-icon="send">send</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Center Panel: Flow Visualization -->
+<section class="flex-1 flex flex-col p-8 bg-surface-container-lowest">
+<div class="mb-12">
+<h2 class="text-2xl font-black uppercase tracking-[0.1em] text-on-surface">AGENT_COMMUNICATION_FLOW</h2>
+<p class="text-xs text-outline tracking-wider mt-1">REAL-TIME ORCHESTRATION PIPELINE_V4.2</p>
+</div>
+<!-- Pipeline Visualization -->
+<div class="flex items-center justify-between w-full relative mt-20 px-10">
+<!-- Background Connecting Line -->
+<div class="absolute h-[2px] w-[calc(100%-100px)] bg-outline-variant/20 left-12 top-1/2 -translate-y-1/2 z-0"></div>
+<!-- Active Pulsing Connection -->
+<div class="absolute h-[2px] w-[20%] bg-primary-container/60 left-[40%] top-1/2 -translate-y-1/2 z-10 shadow-[0_0_10px_#00FF9D]"></div>
+<!-- Nodes -->
+<div class="flex flex-col items-center gap-4 z-20">
+<div class="w-14 h-14 glass-panel flex items-center justify-center border border-primary-container/30 bg-primary-container/10">
+<span class="material-symbols-outlined text-primary-container" data-icon="hub">hub</span>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-tighter text-primary-container">ORCHESTRATOR</span>
+</div>
+<div class="flex flex-col items-center gap-4 z-20 opacity-60">
+<div class="w-14 h-14 glass-panel flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline" data-icon="travel_explore">travel_explore</span>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-tighter text-outline">RESEARCH</span>
+</div>
+<div class="flex flex-col items-center gap-4 z-20">
+<div class="w-14 h-14 glass-panel flex items-center justify-center border border-primary-container/50 active-node-glow bg-surface-container-highest">
+<span class="material-symbols-outlined text-primary-container" data-icon="psychology">psychology</span>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-tighter text-primary-container">REASONING</span>
+</div>
+<div class="flex flex-col items-center gap-4 z-20">
+<div class="w-14 h-14 glass-panel flex items-center justify-center border border-primary-container/50 active-node-glow bg-surface-container-highest">
+<span class="material-symbols-outlined text-primary-container" data-icon="terminal">terminal</span>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-tighter text-primary-container">EXECUTION</span>
+</div>
+<div class="flex flex-col items-center gap-4 z-20 opacity-60">
+<div class="w-14 h-14 glass-panel flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline" data-icon="fact_check">fact_check</span>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-tighter text-outline">VALIDATION</span>
+</div>
+<div class="flex flex-col items-center gap-4 z-20 opacity-60">
+<div class="w-14 h-14 glass-panel flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline" data-icon="quickreply">quickreply</span>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-tighter text-outline">RESPONSE</span>
+</div>
+</div>
+<!-- Central Visualizer -->
+<div class="mt-auto mb-8 h-48 border-y border-outline-variant/10 flex items-center justify-center relative overflow-hidden bg-surface-container-low/20">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle, #00FF9D 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="text-center">
+<div class="flex items-center gap-3 justify-center mb-2">
+<div class="w-2 h-2 bg-primary-container rotate-45"></div>
+<span class="text-lg font-black tracking-[0.4em] text-primary-container">PROCESSING_PLAN_DELTA_7</span>
+<div class="w-2 h-2 bg-primary-container rotate-45"></div>
+</div>
+<p class="text-[10px] font-mono text-outline uppercase tracking-widest">MAP_LAYER_7 // HEURISTIC_MATCH: 98.4%</p>
+</div>
+</div>
+</section>
+<!-- Right Panel: Live Agent Thought Panels -->
+<section class="w-[320px] border-l border-outline-variant/10 flex flex-col bg-surface-container-lowest/50 p-4 gap-3 overflow-y-auto terminal-scroll">
+<h3 class="text-[10px] font-bold uppercase tracking-[0.2em] text-outline mb-2">LIVE_AGENT_THOUGHT_PANELS</h3>
+<!-- Agent Cards -->
+<div class="glass-panel p-3 border-l-4 border-primary-container/40">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-black text-on-surface">ORCHESTRATOR</span>
+<span class="text-[8px] bg-primary-container/10 text-primary-container px-1 py-0.5 font-bold">DONE</span>
+</div>
+<p class="text-[10px] text-outline font-mono leading-relaxed truncate">Delegating task flow to REASONING node after successful research validation.</p>
+</div>
+<div class="glass-panel p-3 border-l-4 border-primary-container/40">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-black text-on-surface">RESEARCH</span>
+<span class="text-[8px] bg-primary-container/10 text-primary-container px-1 py-0.5 font-bold">DONE</span>
+</div>
+<p class="text-[10px] text-outline font-mono leading-relaxed truncate">Cross-referencing VECTOR_DELTA with historical SEC_ALPHA liquidity data.</p>
+</div>
+<div class="glass-panel p-3 border-l-4 border-primary-container shadow-[0_0_10px_rgba(0,255,157,0.1)]">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-black text-on-surface">REASONING</span>
+<span class="text-[8px] bg-primary-container text-on-primary font-black px-1 py-0.5">WORKING</span>
+</div>
+<p class="text-[10px] text-primary font-mono leading-relaxed">Synthesizing behavioral patterns... Applying Bayesian weighting to anomaly set.</p>
+</div>
+<div class="glass-panel p-3 border-l-4 border-primary-container shadow-[0_0_10px_rgba(0,255,157,0.1)]">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-black text-on-surface">EXECUTION</span>
+<span class="text-[8px] bg-primary-container text-on-primary font-black px-1 py-0.5">WORKING</span>
+</div>
+<p class="text-[10px] text-primary font-mono leading-relaxed">Simulating... wait, no. Calculating trajectory for PLAN_ALPHA_7 mitigation.</p>
+</div>
+<div class="glass-panel p-3 border-l-4 border-outline-variant/40 opacity-50">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-black text-on-surface">VALIDATION</span>
+<span class="text-[8px] bg-surface-container-highest text-outline px-1 py-0.5 font-bold">IDLE</span>
+</div>
+<p class="text-[10px] text-outline font-mono leading-relaxed truncate">Waiting for EXECUTION stack completion...</p>
+</div>
+<div class="glass-panel p-3 border-l-4 border-outline-variant/40 opacity-50">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-black text-on-surface">RESPONSE</span>
+<span class="text-[8px] bg-surface-container-highest text-outline px-1 py-0.5 font-bold">IDLE</span>
+</div>
+<p class="text-[10px] text-outline font-mono leading-relaxed truncate">Ready for post-validation summarization.</p>
+</div>
+</section>
+</div>
+<!-- Bottom Area: Inter-Agent Conversation Log -->
+<section class="h-48 border-t border-outline-variant/10 bg-[#0e0e0f] flex flex-col">
+<div class="px-6 py-2 bg-surface-container-lowest border-b border-outline-variant/10 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-primary-container rounded-full animate-pulse"></span>
+<h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-fixed">INTER-AGENT_CONVERSATION_LOG</h4>
+</div>
+<div class="flex gap-4">
+<span class="text-[10px] text-outline font-mono">NODE: RIE_01</span>
+<span class="text-[10px] text-outline font-mono">ENCRYPTION: AES_GCM_256</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 font-mono text-[10px] terminal-scroll space-y-1">
+<p class="text-outline/80"><span class="text-primary-container">[09:41:22]</span> <span class="text-secondary-container">ORCHESTRATOR</span> &gt;&gt; <span class="text-on-surface-variant">RESEARCH:</span> GATHER DATA FOR VECTOR_DELTA_SCAN</p>
+<p class="text-outline/80"><span class="text-primary-container">[09:41:25]</span> <span class="text-secondary-container">RESEARCH</span> &gt;&gt; <span class="text-on-surface-variant">ORCHESTRATOR:</span> RETRIEVED 1.2GB METADATA FROM SEC_ALPHA</p>
+<p class="text-outline/80"><span class="text-primary-container">[09:41:28]</span> <span class="text-secondary-container">ORCHESTRATOR</span> &gt;&gt; <span class="text-on-surface-variant">REASONING:</span> BEGIN HEURISTIC MAPPING OF LIQUIDITY SPIKES</p>
+<p class="text-outline/80"><span class="text-primary-container">[09:41:40]</span> <span class="text-secondary-container">REASONING</span> &gt;&gt; <span class="text-on-surface-variant">EXECUTION:</span> PLAN_ALPHA_7 GENERATED. INITIATE MITIGATION TEST.</p>
+<p class="text-primary-container"><span class="text-primary-container">[09:41:45]</span> <span class="text-secondary-container">EXECUTION:</span> APPLYING LATERIAL_FILTER_V2 ON PORT_8080...</p>
+<p class="text-[#fecb00] animate-pulse"><span class="text-primary-container">[09:41:50]</span> <span class="text-secondary-container">SYSTEM_NOTICE:</span> LATENCY DETECTED ON NODE_04. RE-ROUTING VIA REASONING HUB.</p>
+<p class="text-outline/80"><span class="text-primary-container">[09:41:55]</span> <span class="text-secondary-container">REASONING</span> &gt;&gt; <span class="text-on-surface-variant">EXECUTION:</span> OPTIMIZED PLAN_ALPHA_7_REV1 SENT.</p>
+<p class="text-outline/80"><span class="text-primary-container">[09:42:01]</span> <span class="text-secondary-container">EXECUTION</span> &gt;&gt; <span class="text-on-surface-variant">VALIDATION:</span> PROCESS_COMPLETE. AWAITING CLEARANCE.</p>
+</div>
+</section>
+</main>
+</body></html>
